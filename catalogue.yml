@@ -1,0 +1,55 @@
+  - name: installing catalogue server
+    hosts: catalogue
+    become: true
+
+    tasks: 
+      - name: disabling nodejs module
+        ansible.builtin.command: dnf module disable nodejs -y
+
+      - name: enabling nodejs-20
+        ansible.builtin.command: dnf module enable nodejs:20 -y
+
+      - name: install nodejs 
+        ansible.builtin.dnf:
+        name: nodejs
+        state: present
+
+  
+      - name: create app directory
+        ansible.builtin.file:
+        state: directory
+        path: /app
+
+
+      - name: create a roboshop user
+        ansible.builtin.user:
+          name: roboshop
+          system: true
+          home: /app
+          shell: /sbin/nologin
+          comment: "Roboshop user"
+          create_home: true
+
+      - name: Download catalogue service code
+        ansible.builtin.get_url:
+          url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+          dest: /tmp/catalogue.zip
+
+      - name: extract the catalogue service code
+        ansible.builtin.unarchive:
+          src: /tmp/catalogue.zip
+          dest: /app
+          remote_src: yes # yes means files already exist in catalogue server
+
+      - name: install npm dependencies
+        community.general.npm:
+          path: /app
+
+      - name: copying catalogue service dependencies
+        ansible.builtin.copy:
+          src: service/catalogue.service
+          dest: /etc/systemd/system/catalogue.service
+
+      - name: systemctl daemon reload
+        ansible.builtin.systemd_service:
+          daemon_reload: true
