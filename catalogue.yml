@@ -11,14 +11,14 @@
 
       - name: install nodejs 
         ansible.builtin.dnf:
-        name: nodejs
-        state: present
+          name: nodejs
+          state: present
 
   
       - name: create app directory
         ansible.builtin.file:
-        state: directory
-        path: /app
+          state: directory
+          path: /app
 
 
       - name: create a roboshop user
