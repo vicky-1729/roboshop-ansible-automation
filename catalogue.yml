@@ -74,3 +74,8 @@
       - name: Load products if catalogue DB does not exist
         ansible.builtin.shell: mongosh --host mongodb.tcloudguru.in < /app/db/master-data.js
         when: catalogue_db.stdout | int < 0
+
+      - name: restart catalogue
+        ansible.builtin.service:
+          name: catalogue
+          state: restarted
