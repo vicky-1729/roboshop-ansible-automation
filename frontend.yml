@@ -42,7 +42,7 @@
         state: absent
 
     - name: copy roboshop content into nginx configuration
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: repo_config/nginx.conf
         dest: /etc/nginx/nginx.conf
 
