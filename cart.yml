@@ -42,7 +42,7 @@
 
     - name: install npm dependencies
       community.general.npm:
-      path: /app
+        path: /app
       
     - name: update cart service config
       ansible.builtin.copy:
@@ -52,7 +52,7 @@
     - name: reload
       ansible.builtin.systemd:
         daemon_reload: true
-        
+
     - name: start cart reload
       ansible.builtin.systemd:
         name: cart
