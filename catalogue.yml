@@ -13,6 +13,7 @@
         ansible.builtin.dnf:
           name: nodejs
           state: present
+          
 
   
       - name: create app directory
@@ -53,3 +54,23 @@
       - name: systemctl daemon reload
         ansible.builtin.systemd_service:
           daemon_reload: true
+       
+
+      - name: copying mongo repo
+        ansible.builtin.copy:
+          src: repo_config/mongo.repo
+          dest: /etc/yum.repos.d/mongo.repo
+
+      - name: installing mongodb cilent server
+        ansible.builtin.package:
+          name: mongodb-mongosh
+          state: present
+          
+      - name: Check if catalogue DB exists
+        ansible.builtin.command: >
+          mongosh --host mongodb.tcloudguru.in --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+        register: catalogue_db
+
+      - name: Load products if catalogue DB does not exist
+        ansible.builtin.shell: mongosh --host mongodb.tcloudguru.in < /app/db/master-data.js
+        when: catalogue_db.stdout | int < 0
