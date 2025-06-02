@@ -1,5 +1,6 @@
 - name: setuping redis server
   hosts: redis
+  become: true
 
   tasks:
     - name: disable redis
