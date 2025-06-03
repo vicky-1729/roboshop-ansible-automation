@@ -53,7 +53,7 @@
 
       - name: systemctl daemon reload
         ansible.builtin.systemd_service:
-          daemon_reload: true
+          daemon-reload: true
        
 
       - name: copying mongo repo
