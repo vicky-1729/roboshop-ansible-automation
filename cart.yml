@@ -46,12 +46,12 @@
       
     - name: update cart service config
       ansible.builtin.copy:
-        src: service/user.service
+        src: service/cart.service
         dest: /etc/systemd/system/cart.service
   
     - name: reload
       ansible.builtin.systemd:
-        daemon-reload: true
+        daemon_reload: true
 
     - name: start cart reload
       ansible.builtin.systemd:
