@@ -167,6 +167,3 @@ This document provides troubleshooting steps for deploying a microservice applic
 
 ---
 
-**Note:**  
-Replace `royalreddy.site` with `<your website>` wherever applicable.  
-If you find any new debugging steps, please add them to this document.
