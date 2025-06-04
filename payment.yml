@@ -10,6 +10,11 @@
           - python3-pip
         state: present
 
+    - name: install python3-devel
+      ansible.builtin.dnf:
+        name: python3-devel
+        state: present
+
     - name: create a roboshop user
       ansible.builtin.user:
         name: roboshop
