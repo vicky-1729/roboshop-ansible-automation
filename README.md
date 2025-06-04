@@ -24,21 +24,39 @@
 
 ```
 roboshop-ansible-automation/
-├── ansible_module.md        # Documentation of Ansible modules used
-├── roboshop.ini             # Inventory file with target hosts
-├── repo_config/             # Service-specific repo and config files
-├── service/                 # Systemd service unit files
-├── mongodb.yml              # Playbook for MongoDB setup
-├── mysql.yml                # Playbook for MySQL setup
-├── rabbitmq.yml             # Playbook for RabbitMQ setup
-├── redis.yml                # Playbook for Redis setup
-├── catalogue.yml            # Playbook for Catalogue service
-├── user.yml                 # Playbook for User service
-├── cart.yml                 # Playbook for Cart service
-├── shipping.yml             # Playbook for Shipping service
-├── payment.yml              # Playbook for Payment service
-├── frontend.yml             # Playbook for Frontend service
-└── README.md                # Project documentation
+├── ansible_module.md
+│   └─ Documentation of Ansible modules and their usage within the playbooks for reference and learning.
+├── roboshop.ini
+│   └─ Ansible inventory file listing all target hosts and their groupings (e.g., databases, application servers, frontend).
+├── repo_config/
+│   ├── <service>.repo
+│   ├── <service>.conf
+│   └─ Contains repository configuration files and service-specific configuration templates (such as YUM repo files, application config files, etc.) used by playbooks to set up each microservice.
+├── service/
+│   ├── <service>.service
+│   └─ Systemd unit files for each microservice, enabling Ansible to register, start, and manage services as systemd-managed daemons.
+├── mongodb.yml
+│   └─ Ansible playbook to automate the installation and configuration of MongoDB.
+├── mysql.yml
+│   └─ Ansible playbook to automate the installation and configuration of MySQL.
+├── rabbitmq.yml
+│   └─ Ansible playbook to automate the installation and configuration of RabbitMQ.
+├── redis.yml
+│   └─ Ansible playbook to automate the installation and configuration of Redis.
+├── catalogue.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the Catalogue microservice.
+├── user.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the User microservice.
+├── cart.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the Cart microservice.
+├── shipping.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the Shipping microservice.
+├── payment.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the Payment microservice.
+├── frontend.yml
+│   └─ Ansible playbook to automate the deployment and configuration of the Frontend microservice.
+└── README.md
+    └─ Main documentation file describing the project, usage instructions, and structure.
 ```
 
 ## How It Works
