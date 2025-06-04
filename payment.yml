@@ -21,7 +21,7 @@
 
     - name: create app directory
       ansible.builtin.file:
-        name: /app
+        path: /app
         state: directory
 
     - name: Download payment service code
@@ -48,12 +48,13 @@
         dest: /etc/systemd/system/payment.service
 
     - name: reload systemd
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         daemon_reload: true
 
     - name: start and enable payment service
       ansible.builtin.service:
         name: payment
         state: started
-        enabled: true
+        enabled: yes
+
 
