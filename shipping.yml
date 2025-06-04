@@ -46,6 +46,11 @@
         src: service/shipping.service
         dest: /etc/systemd/system/shipping.service
 
+    - name: Install PyMySQL for Ansible MySQL modules
+      ansible.builtin.pip:
+        name: PyMySQL
+        executable: pip3
+
     - name: import data
       community.mysql.mysql_db:
         name: all
