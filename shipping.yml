@@ -8,17 +8,16 @@
         name: "{{ item }}"
         state: present
       loop:
-      - maven
-      - mysql
-
+        - maven
+        - mysql
 
     - name: create roboshop user
       ansible.builtin.user:
-          name: roboshop
-          home: /app
-          shell: /sbin/nologin 
-          comment: "roboshop system user" 
-          system: true
+        name: roboshop
+        home: /app
+        shell: /sbin/nologin 
+        comment: "roboshop system user" 
+        system: true
 
     - name: create a app directory
       ansible.builtin.file:
@@ -28,7 +27,7 @@
     - name: downloading the shipping code
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
-        path: /tmp/shipping.zip
+        dest: /tmp/shipping.zip
 
     - name: extract the download code
       ansible.builtin.unarchive:
@@ -37,9 +36,9 @@
         remote_src: yes
 
     - name: installing maven dependencies
-      ansible.builtin.command:  mvn clean package
+      ansible.builtin.command: mvn clean package
       args:
-          chdir: /app
+        chdir: /app
 
     - name: copying the shipping service to systemctl
       ansible.builtin.copy:
@@ -47,22 +46,20 @@
         dest: /etc/systemd/system/shipping.service
 
     - name: import data
-      tags:
-      - import
       community.mysql.mysql_db:
-      name: all
-      login_user: root
-      login_password: RoboShop@1
-      login_host: mysql.daws84s.site
-      state: import
-      target: "{{ item }}"
+        name: all
+        login_user: root
+        login_password: RoboShop@1
+        login_host: mysql.daws84s.site
+        state: import
+        target: "{{ item }}"
       loop:
-      - /app/db/schema.sql
-      - /app/db/app-user.sql
-      - /app/db/master-data.sql
+        - /app/db/schema.sql
+        - /app/db/app-user.sql
+        - /app/db/master-data.sql
 
-     - name: start cart reload
+    - name: start and enable shipping service
       ansible.builtin.systemd:
-        name: cart
+        name: shipping
         state: restarted
         enabled: true
