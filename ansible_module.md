@@ -1,5 +1,6 @@
 # Ansible Modules Used in shipping.yml
 
+*Installs packages using DNF package manager.*
 ## 1. ansible.builtin.dnf
 ```yaml
 - name: install maven and mysql
@@ -10,8 +11,8 @@
     - maven
     - mysql
 ```
-*Installs packages using DNF package manager.*
 
+*Installs Python packages using pip.*
 ## 2. ansible.builtin.pip
 ```yaml
 - name: install PyMySQL and cryptography 
@@ -22,8 +23,8 @@
     - cryptography
     - PyMySQL
 ```
-*Installs Python packages using pip.*
 
+*Creates or manages file/directory properties.*
 ## 3. ansible.builtin.file
 ```yaml
 - name: create app directory
@@ -31,8 +32,8 @@
     path: /app
     state: directory
 ```
-*Creates or manages file/directory properties.*
 
+*Manages user accounts.*
 ## 4. ansible.builtin.user
 ```yaml
 - name: create roboshop system user
@@ -42,8 +43,8 @@
     system: true
     home: /app
 ```
-*Manages user accounts.*
 
+*Downloads files from HTTP, HTTPS, or FTP.*
 ## 5. ansible.builtin.get_url
 ```yaml
 - name: download shipping code
@@ -51,8 +52,8 @@
     url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
     dest: /tmp/shipping.zip
 ```
-*Downloads files from HTTP, HTTPS, or FTP.*
 
+*Unpacks archives.*
 ## 6. ansible.builtin.unarchive
 ```yaml
 - name: extract shipping code
@@ -61,8 +62,8 @@
     dest: /app
     remote_src: yes
 ```
-*Unpacks archives.*
 
+*Runs commands on remote nodes.*
 ## 7. ansible.builtin.command
 ```yaml
 - name: install maven dependencies
@@ -75,8 +76,8 @@
   args:
     chdir: /app
 ```
-*Runs commands on remote nodes.*
 
+*Copies files to remote machines.*
 ## 8. ansible.builtin.copy
 ```yaml
 - name: copy shipping service
@@ -84,16 +85,16 @@
     src: service/shipping.service
     dest: /etc/systemd/system/shipping.service
 ```
-*Copies files to remote machines.*
 
+*Reloads systemd manager configuration.*
 ## 9. ansible.builtin.systemd_service
 ```yaml
 - name: daemon reload
   ansible.builtin.systemd_service:
     daemon_reload: true
 ```
-*Reloads systemd manager configuration.*
 
+*Manages services (start, stop, restart, enable, etc).*
 ## 10. ansible.builtin.service
 ```yaml
 - name: enable and start shipping
@@ -107,8 +108,8 @@
     state: restarted
     name: shipping
 ```
-*Manages services (start, stop, restart, enable, etc).*
 
+*Manages MySQL databases and imports data.*
 ## 11. community.mysql.mysql_db
 ```yaml
 - name: import data
@@ -124,7 +125,6 @@
     - /app/db/app-user.sql
     - /app/db/master-data.sql
 ```
-*Manages MySQL databases and imports data.*
 
 ---
 *Add more modules here as you use them in other playbooks.*
