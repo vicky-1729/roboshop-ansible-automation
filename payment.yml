@@ -34,8 +34,6 @@
         src: /tmp/payment.zip
         dest: /app
         remote_src: yes
-        owner: roboshop
-        group: roboshop
 
     - name: install python dependencies
       ansible.builtin.pip:
