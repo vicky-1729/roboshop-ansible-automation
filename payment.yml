@@ -37,10 +37,10 @@
 
     - name: install python dependencies
       ansible.builtin.pip:
-        requirements: requirements.txt
-        executable: pip3
+      requirements: requirements.txt
+      executable: pip3
       args:
-        chdir: /app
+      chdir: /app
 
     - name: copy the payment service
       ansible.builtin.copy:
