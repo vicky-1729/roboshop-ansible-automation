@@ -8,16 +8,17 @@
         name: "{{ item }}"
         state: present
       loop:
-        - maven
-        - mysql
+      - maven
+      - mysql
+
 
     - name: create roboshop user
       ansible.builtin.user:
-        name: roboshop
-        home: /app
-        shell: /sbin/nologin 
-        comment: "roboshop system user" 
-        system: true
+          name: roboshop
+          home: /app
+          shell: /sbin/nologin 
+          comment: "roboshop system user" 
+          system: true
 
     - name: create a app directory
       ansible.builtin.file:
@@ -27,7 +28,7 @@
     - name: downloading the shipping code
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
-        dest: /tmp/shipping.zip
+        path: /tmp/shipping.zip
 
     - name: extract the download code
       ansible.builtin.unarchive:
@@ -36,9 +37,9 @@
         remote_src: yes
 
     - name: installing maven dependencies
-      ansible.builtin.command: mvn clean package
+      ansible.builtin.command:  mvn clean package
       args:
-        chdir: /app
+          chdir: /app
 
     - name: copying the shipping service to systemctl
       ansible.builtin.copy:
@@ -57,9 +58,11 @@
         - /app/db/schema.sql
         - /app/db/app-user.sql
         - /app/db/master-data.sql
+      tags:
+        - import
 
-    - name: start and enable shipping service
+     - name: start cart reload
       ansible.builtin.systemd:
-        name: shipping
+        name: cart
         state: restarted
         enabled: true
