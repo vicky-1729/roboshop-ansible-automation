@@ -62,5 +62,13 @@
         state: started
         enabled: yes
 
+    - name: show /app directory contents
+      ansible.builtin.shell: ls -l /app
+      register: app_dir_contents
+
+    - name: debug /app directory
+      ansible.builtin.debug:
+        var: app_dir_contents.stdout_lines
+
 
 
