@@ -3,15 +3,17 @@
   become: true
 
   tasks:
-    - name: copy rabbitmq config file
-      ansible.builtin.copy:
-        srcc: repo_config/rabbitmq.repo
-        dest: /etc/yum.repos.d/rabbitmq.repo
+
     
     - name: install rabbitmq server
       ansible.builtin.dnf:
        name: rabbitmq-server
        state: present
+       
+    - name: copy rabbitmq config file
+      ansible.builtin.copy:
+        srcc: repo_config/rabbitmq.repo
+        dest: /etc/yum.repos.d/rabbitmq.repo
 
     - name: rabbitmq server start and enabling
       ansible.builtin.service:
