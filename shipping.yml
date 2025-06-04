@@ -8,8 +8,8 @@
         name: "{{ item }}"
         state: present
       loop:
-        - maven
-        - mysql
+      - maven
+      - mysql
 
 
     - name: create roboshop user
@@ -61,8 +61,8 @@
       tags:
         - import
 
-     - name: start cart reload
+    - name: restart server
       ansible.builtin.systemd:
-        name: cart
-        state: restarted
-        enabled: true
+          name: cart
+          state: restarted
+          enabled: true
