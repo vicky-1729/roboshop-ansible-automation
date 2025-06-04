@@ -53,7 +53,7 @@
 
     - name: copy shipping service
       ansible.builtin.copy:
-        src: service/shipping.service
+        src: service/shipping.service   # keep as per your directory structure
         dest: /etc/systemd/system/shipping.service
 
     - name: daemon reload
@@ -80,7 +80,7 @@
         name: all
         login_user: root
         login_password: RoboShop@1
-        login_host: mysql.tcloudguru.in
+        login_host: mysql.tcloudguru.in   # <-- update this line
         state: import
         target: "{{ item }}"
       loop:
