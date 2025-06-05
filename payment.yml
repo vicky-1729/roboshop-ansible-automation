@@ -8,6 +8,7 @@
         name:
           - python3
           - python3-pip
+          - gcc
         state: present
 
     - name: install python3-devel
@@ -21,8 +22,7 @@
         system: true
         home: /app
         shell: /sbin/nologin
-        comment: "Roboshop user"
-        create_home: true
+  
 
     - name: create app directory
       ansible.builtin.file:
@@ -56,19 +56,16 @@
       ansible.builtin.systemd_service:
         daemon_reload: true
 
-    - name: start and enable payment service
+    - name: daemon reload
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+
+    - name: enable and start payment
       ansible.builtin.service:
         name: payment
         state: started
         enabled: yes
 
-    - name: show /app directory contents
-      ansible.builtin.shell: ls -l /app
-      register: app_dir_contents
-
-    - name: debug /app directory
-      ansible.builtin.debug:
-        var: app_dir_contents.stdout_lines
 
 
 
