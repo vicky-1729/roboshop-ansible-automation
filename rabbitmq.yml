@@ -1,6 +1,7 @@
 - name: setup rabbitmq component
   hosts: rabbitmq
   become: true
+  
 
   tasks:
     - name: copy rabbitmq repo
