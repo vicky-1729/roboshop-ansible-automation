@@ -1,66 +1,61 @@
-- name: creating the payment service
+- name: Setup Payment Service
   hosts: payment
   become: true
 
   tasks:
-    - name: install python3 and pip
+    - name: Install required packages
       ansible.builtin.dnf:
         name:
           - python3
           - python3-pip
           - gcc
+          - python3-devel
         state: present
 
-    - name: install python3-devel
-      ansible.builtin.dnf:
-        name: python3-devel
-        state: present
-
-    - name: create a roboshop user
+    - name: Create roboshop user
       ansible.builtin.user:
         name: roboshop
         system: true
         home: /app
         shell: /sbin/nologin
-  
 
-    - name: create app directory
+    - name: Create app directory
       ansible.builtin.file:
         path: /app
         state: directory
+        owner: roboshop
+        group: roboshop
 
     - name: Download payment service code
       ansible.builtin.get_url:
         url: https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip
         dest: /tmp/payment.zip
 
-    - name: extract the payment service code
+    - name: Extract payment service code
       ansible.builtin.unarchive:
         src: /tmp/payment.zip
         dest: /app
         remote_src: yes
+        owner: roboshop
+        group: roboshop
 
-    - name: install python dependencies
+    - name: Install Python dependencies
       ansible.builtin.pip:
         requirements: requirements.txt
         executable: pip3
       args:
         chdir: /app
 
-    - name: copy the payment service
+    - name: Copy payment systemd service file
       ansible.builtin.copy:
         src: service/payment.service
         dest: /etc/systemd/system/payment.service
 
-    - name: reload systemd
-      ansible.builtin.systemd_service:
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
         daemon_reload: true
 
-    - name: daemon reload
-      ansible.builtin.systemd_service:
-        daemon_reload: true
-
-    - name: enable and start payment
+    - name: Enable and start payment service
       ansible.builtin.service:
         name: payment
         state: started
