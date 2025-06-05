@@ -1,29 +1,29 @@
-- name: Setup Payment Service
+- name: Configure Payment Server
+  become: yes
   hosts: payment
-  become: true
 
   tasks:
-    - name: Install required packages
+    - name: Install python3 packages
       ansible.builtin.dnf:
-        name:
-          - python3
-          - python3-pip
-          - gcc
-          - python3-devel
-        state: present
-
-    - name: Create roboshop user
-      ansible.builtin.user:
-        name: roboshop
-        system: true
-        home: /app
-        shell: /sbin/nologin
+        name: "{{ item }}"
+        state: installed
+      loop:
+        - python3
+        - python3-pip
+        - gcc
+        - python3-devel
 
     - name: Create app directory
       ansible.builtin.file:
         path: /app
         state: directory
 
+    - name: Create roboshop system user
+      ansible.builtin.user:
+        name: roboshop
+        shell: /sbin/nologin
+        system: true
+        home: /app
 
     - name: Download payment service code
       ansible.builtin.get_url:
@@ -35,7 +35,6 @@
         src: /tmp/payment.zip
         dest: /app
         remote_src: yes
-
 
     - name: Install Python dependencies
       ansible.builtin.pip:
