@@ -16,8 +16,8 @@ SG_ID="sg-040ecf8bb247d6036"
 ZONE_ID="Z08643193QT2QCZFDKUI1"
 DOMAIN_NAME="tcloudguru.in"
 INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipping" "payment" "dispatch" "frontend")
-for instance in ${INSTANCES[@]}
-#for instance in "$@"; do
+
+for instance in "${INSTANCES[@]}"; do
   echo -e "Launching ${y}${instance}...${reset}"
   INSTANCE_ID=$(aws ec2 run-instances \
     --image-id "$AMI_ID" \
